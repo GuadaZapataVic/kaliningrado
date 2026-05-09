@@ -39,68 +39,6 @@
       width: 45%;
     }
 
-    /* imagen sticky centrada (detrás de los cuadros) */
-    .fixed-image {
-      position: sticky;
-      top: 80px;
-      display: block;
-      margin: 0 auto;
-      width: 65%;
-      height: auto;
-      opacity: 0;
-      transition: opacity 0.5s ease-out;
-      z-index: 0;
-    }
-    .fixed-image.show { opacity: 1; }
-
-    /* slide */
-    .image-slide {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      margin: 0;
-      min-height: 100vh;
-    }
-
-    .image-slide:first-child {
-      min-height: 30vh;
-    }
-
-    /* cuadrito negro */
-    .html-libre-hack-black {
-      background-color: #000000c9;
-      color: #fff;
-      font-size: 1.2rem;
-      line-height: 1.4;
-      padding: 0.5rem;
-      max-width: 600px;
-      border-radius: 4px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.45s ease, transform 0.45s ease;
-      z-index: 2;
-      text-align: center;
-    }
-    .html-libre-hack-black.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .pCuadritos {
-      margin: 0 auto 0rem;
-      line-height: 1.6;
-      font-size: 1.5rem;
-      color: #fff;
-      max-width: 100%;
-    }
-
-    .image-section {
-      position: relative;
-      height: auto;
-      padding: 0;
-    }
-
     img.normal-image {
       display: block;
       margin: 0rem auto;
@@ -126,6 +64,82 @@
     .h3Especial {
       max-width: 45%;
       margin: 80px auto 1.5rem;
+    }
+
+    /* 🔥 NUEVAS CLASES PARA EL EFECTO SPLIT SCREEN 🔥 */
+    .split-section {
+      display: flex;
+      align-items: flex-start; /* Clave para que el position: sticky funcione */
+      justify-content: space-between;
+      max-width: 85%;
+      margin: 4rem auto;
+      gap: 5%;
+    }
+
+    /* Columna Izquierda: Texto que se queda quieto */
+    .left-text {
+      width: 40%;
+      position: sticky;
+      top: 35vh; /* Se ancla en el tercio superior de la pantalla */
+    }
+
+    /* Columna Derecha: Imágenes que scrollean */
+    .right-images {
+      width: 55%;
+      display: flex;
+      flex-direction: column;
+      gap: 80vh; /* Espacio gigante entre imágenes para que pasen de a una */
+      padding-top: 5vh;
+      padding-bottom: 10vh;
+    }
+
+    .scroll-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15); /* Una sombra sutil para que resalten */
+    }
+
+    /* Apilamos los textos uno encima del otro usando Grid */
+    .text-stack {
+      display: grid;
+      align-items: center;
+    }
+
+    .text-card {
+      grid-area: 1 / 1;
+      background-color: #000000c9;
+      color: #fff;
+      padding: 1.5rem 2rem;
+      border-radius: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+      text-align: center;
+    }
+
+    .text-card.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      z-index: 2;
+    }
+
+    .pCuadritos {
+      margin: 0;
+      line-height: 1.6;
+      font-size: 1.5rem;
+      color: #fff;
+      max-width: 100%; /* Resetea el 45% global de los <p> */
+    }
+
+    /* Adaptación básica para celulares (apila todo) */
+    @media (max-width: 768px) {
+      .split-section { flex-direction: column; }
+      .left-text { width: 100%; position: sticky; top: 2vh; z-index: 10; }
+      .right-images { width: 100%; gap: 30vh; margin-top: 2rem; }
     }
   </style>
 </head>
@@ -169,23 +183,29 @@
   <p>Entre las <b>opciones alternativas</b> se destacan la <b>astrología (37,7%)</b>, los <b>curanderos (31,9%)</b> y el <b>Gauchito Gil (30,8%)</b>.</p>
   <p>Esto muestra el abanico de referencias que hoy conforman el mapa de la fe y la búsqueda de trascendencia en la Argentina y; <b>evidencia una “fe mezclada”</b> entre el <b>dogma propio del catolicismo</b> y <b>formas de espiritualidad y fe</b> que no se alinean con las doctrinas centrales de la religión.</p>
 
-  <!-- 🔥 PRIMER BLOQUE DE 3 IMÁGENES CON STICKY -->
-  <div class="image-section">
-    <img src="grafico1.jpg" alt="Gráfico 1" class="fixed-image" id="img1">
-    <img src="grafico2.jpg" alt="Gráfico 2" class="fixed-image" id="img2">
-    <img src="grafico3.jpg" alt="Gráfico 3" class="fixed-image" id="img3">
-
-    <div class="image-slide" data-index="0">
-      <div class="html-libre-hack-black"><p class="pCuadritos">Los católicos argentinos combinan una fe muy fuerte en los pilares fundamentales del cristianismo con elementos de la religiosidad popular y de creencias alternativas.</p></div>
+  <!-- 🔥 PRIMER BLOQUE: 3 IMÁGENES SPLIT SCREEN 🔥 -->
+  <div class="split-section">
+    
+    <!-- Izquierda: Textos que se quedan quietos y van cambiando -->
+    <div class="left-text text-stack">
+      <div class="text-card show" data-index="0">
+        <p class="pCuadritos">Los católicos argentinos combinan una fe muy fuerte en los pilares fundamentales del cristianismo con elementos de la religiosidad popular y de creencias alternativas.</p>
+      </div>
+      <div class="text-card" data-index="1">
+        <p class="pCuadritos">Las creencias con mayor aceptación son las figuras centrales del cristianismo: Jesucristo, Dios, la Virgen y el Espíritu Santo.</p>
+      </div>
+      <div class="text-card" data-index="2">
+        <p class="pCuadritos">Las creencias alternativas y populares, sin embargo, representan altos porcentajes de adhesión, lo que evidencia una “fe mezclada” entre el dogma propio del catolicismo y formas de espiritualidad y fe.</p>
+      </div>
     </div>
 
-    <div class="image-slide" data-index="1">
-      <div class="html-libre-hack-black"><p class="pCuadritos">Las creencias con mayor aceptación son las figuras centrales del cristianismo: Jesucristo, Dios, la Virgen y el Espíritu Santo.</p></div>
+    <!-- Derecha: Imágenes que suben -->
+    <div class="right-images">
+      <img src="grafico1.jpg" alt="Gráfico 1" class="scroll-img" data-index="0">
+      <img src="grafico2.jpg" alt="Gráfico 2" class="scroll-img" data-index="1">
+      <img src="grafico3.jpg" alt="Gráfico 3" class="scroll-img" data-index="2">
     </div>
 
-    <div class="image-slide" data-index="2">
-      <div class="html-libre-hack-black"><p class="pCuadritos">Las creencias alternativas y populares, sin embargo, representan altos porcentajes de adhesión, lo que evidencia una “fe mezclada” entre el dogma propio del catolicismo y formas de espiritualidad y fe.</p></div>
-    </div>
   </div>
 
   <!-- TEXTO ENTRE BLOQUES -->
@@ -194,13 +214,21 @@
   <p>En paralelo, expresiones de religiosidad alternativa mantuvieron cierta vigencia: la <b>astrología creció</b> del 25,9% al 33%, mientras que la figura del <b>Gauchito Gil y los curanderos</b> conservaron <b>niveles estables de adhesión</b>, en torno al 30%.</p>
   <p><b>El diablo, en cambio, perdió terreno</b>, y pasó del 47,1% al 46%. Estas cifras evidencian un cambio de tendencia en la fe argentina: los <b>pilares del catolicismo se mantienen</b> como referentes de fe, pero su <b>influencia disminuye</b>. Esto permite la inclusion de prácticas populares y creencias no institucionales al mapa de fe.</p>
     
-  <!-- 🔥 SEGUNDO BLOQUE SOLO PARA GRAFICO4 -->
-  <div class="image-section">
-    <img src="grafico4.jpg" alt="Gráfico 4" class="fixed-image" id="img4">
-
-    <div class="image-slide" data-index="3">
-      <div class="html-libre-hack-black"> <p class="pCuadritos">Los datos muestran que, mientras la fe católica tradicional en figuras como la Virgen, Dios y los ángeles se debilita, creencias alternativas como la energía y la astrología ganan espacio, evidenciando una religiosidad más híbrida y menos institucionalizada.</p></div>
+  <!-- 🔥 SEGUNDO BLOQUE: 1 IMAGEN SPLIT SCREEN 🔥 -->
+  <div class="split-section">
+    
+    <!-- Izquierda: Texto que se queda quieto -->
+    <div class="left-text text-stack">
+      <div class="text-card show" data-index="3">
+        <p class="pCuadritos">Los datos muestran que, mientras la fe católica tradicional en figuras como la Virgen, Dios y los ángeles se debilita, creencias alternativas como la energía y la astrología ganan espacio, evidenciando una religiosidad más híbrida y menos institucionalizada.</p>
+      </div>
     </div>
+
+    <!-- Derecha: Imagen que sube -->
+    <div class="right-images">
+      <img src="grafico4.jpg" alt="Gráfico 4" class="scroll-img" data-index="3">
+    </div>
+
   </div>
 
   <p>La <b>disminución de la adhesión católica no puede comprenderse sin su relación con la política y la cultura</b>: desde los conflictos por la educación laica hasta la oposición a derechos civiles como el divorcio y el matrimonio igualitario. A ello se suma la desconfianza generada por los casos de abusos y el auge de formas de espiritualidad más individuales y flexibles.</p>
@@ -208,52 +236,34 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const imgs = [
-        document.getElementById('img1'),
-        document.getElementById('img2'),
-        document.getElementById('img3'),
-        document.getElementById('img4')
-      ];
-      const slides = Array.from(document.querySelectorAll('.image-slide'));
+      const scrollImages = document.querySelectorAll('.scroll-img');
 
-      const showSlide = (index) => {
-        imgs.forEach((img, i) => img.classList.toggle('show', i === index));
-        slides.forEach((slide, i) => {
-          const box = slide.querySelector('.html-libre-hack-black');
-          if (box) box.classList.toggle('show', i === index);
-        });
-      };
-
+      // Configuramos el Intersection Observer
       const observer = new IntersectionObserver((entries) => {
-        let activeIndex = null;
-        for (const entry of entries) {
+        entries.forEach(entry => {
           if (entry.isIntersecting) {
-            activeIndex = slides.indexOf(entry.target);
-            break;
+            const index = entry.target.getAttribute('data-index');
+            
+            // Buscamos la tarjeta de texto correspondiente a la imagen que entró en pantalla
+            const activeCard = document.querySelector(`.text-card[data-index="${index}"]`);
+            
+            if (activeCard) {
+              // Ocultamos las demás tarjetas del mismo bloque
+              const parentStack = activeCard.closest('.text-stack');
+              const siblingCards = parentStack.querySelectorAll('.text-card');
+              siblingCards.forEach(card => card.classList.remove('show'));
+              
+              // Mostramos la activa
+              activeCard.classList.add('show');
+            }
           }
-        }
-        if (activeIndex !== null) {
-          showSlide(activeIndex);
-        }
+        });
       }, {
-        threshold: 0.05,
-        rootMargin: "-10% 0px -70% 0px"
+        // Se activa cuando el centro de la imagen cruza el centro de la pantalla
+        rootMargin: "-40% 0px -40% 0px" 
       });
 
-      slides.forEach(s => observer.observe(s));
-
-      showSlide(0);
-
-      const checkInitial = () => {
-        let activeIndex = slides.findIndex(slide => {
-          const rect = slide.getBoundingClientRect();
-          return rect.top < window.innerHeight * 0.7 && rect.bottom > window.innerHeight * 0.1;
-        });
-        if (activeIndex >= 0) showSlide(activeIndex);
-      };
-
-      checkInitial();
-      window.addEventListener('resize', checkInitial);
+      scrollImages.forEach(img => observer.observe(img));
     });
   </script>
 </body>
